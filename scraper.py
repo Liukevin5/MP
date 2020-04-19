@@ -2,7 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import urllib.request
-import json 
+import json
+import mimetypes
 from html.parser import HTMLParser
 
 
@@ -18,14 +19,14 @@ def scrapeAsics(url):
 
     titles = []
     shoes = []
-
+    cnt = 0
     for tag in x:
 
         pretag = tag.find_all('a', class_ = 'thumb-link')
         href = str(pretag[0])
         start = href.index('href="')
         href = href[start + 6:]
-        href = href[:href.index('"') + 1]
+        href = href[:href.index('"') ]
 
         newTag = str(pretag[0])
 
@@ -48,16 +49,36 @@ def scrapeAsics(url):
 
             if not(title in titles):
                 titles.append(title)
-                shoes.append(((title), res['src'], href))
+                response = requests.get(res['src'])
+                content_type = response.headers['content-type']
+                extension = mimetypes.guess_extension(content_type)
+                id = 'asic' + str(cnt)
+                cnt += 1
+                urllib.request.urlretrieve(res['src'], os.getcwd()+'/shoes/'+id+extension)
+                shoes.append(((title), id, href, extension))
+
 
     return shoes
 
-ASICS_OVERPRONATE = "https://www.asics.com/us/en-us/mens-running/c/aa10401000/overpronate/?start=0&sz=96&cb=1587260258090"
+def scrapeAll(pronation):
+    ASICS_OVERPRONATE = "https://www.asics.com/us/en-us/mens-running/c/aa10401000/overpronate/?start=0&sz=96&cb=1587260258090"
 
-ASICS_NEUTRAL = "https://www.asics.com/us/en-us/mens-running/c/aa10401000/neutral/?start=0&sz=96&cb=1587260258090"
+    ASICS_NEUTRAL = "https://www.asics.com/us/en-us/mens-running/c/aa10401000/neutral/?start=0&sz=96&cb=1587260258090"
 
-ASICS_UNDERPRONATE = "https://www.asics.com/us/en-us/mens-running/c/aa10401000/underpronate/?start=0&sz=96&cb=1587260258090"
+    ASICS_UNDERPRONATE = "https://www.asics.com/us/en-us/mens-running/c/aa10401000/underpronate/?start=0&sz=96&cb=1587260258090"
+    
 
+    shoes = []
+    if (pronation == 'neutral pronation'):
+        shoes += scrapeAsics(ASICS_NEUTRAL)
+    elif (pronation == 'underpronation'):
+        shoes += scrapeAsics(ASICS_UNDERPRONATE)
+    elif (pronation == 'overpronation'):
+        shoes += scrapeAsics(ASICS_OVERPRONATE)
+
+    return shoes
+
+            
 
 
 
