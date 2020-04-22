@@ -1,0 +1,39 @@
+
+
+td {
+    border: 3px solid;
+    border-color:lightgray;
+    font-size: 12px;
+    background-color: white;
+}
+
+td:hover{ 
+    border-color:purple;
+}
+ 
+table td {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    display: inline-block;
+    /* white-space: nowrap; */
+}
+table{
+    table-layout: fixed;
+}
+
+/* table {
+    margin-left:auto; 
+    margin-right:auto;
+} */
+
+h2 {
+    background-color: lightgray;
+    margin-left:auto; 
+    margin-right:auto;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+  }

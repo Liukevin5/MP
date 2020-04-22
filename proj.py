@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-
+import math
 class Imaging:
     def image_resize(self,image, width = None, height = None, inter = cv2.INTER_AREA):
         # initialize the dimensions of the image to be resized and
@@ -136,17 +136,35 @@ class Imaging:
     def removeToes(self, img):
 
         noToes = img.copy()
+
         height, startHeight, stopHeight = self.getHeight(img)
 
         offset = int(.2 * height)
         checkpoint = stopHeight - offset
-        minWidth = self.getWidthAt(img, checkpoint)
+
+        
+        # minWidth = self.getWidthAt(img, checkpoint)
+        minWidth = 0
+        dist = math.floor((stopHeight - startHeight)/2)
+        print(noToes[0][0])
+        for i in range (dist):
+            if self.getWidthAt(noToes,(startHeight + dist + i)) > minWidth:
+                minWidth = self.getWidthAt(noToes, (startHeight + dist + i))
 
         print('minWidth',minWidth)
 
+        count = 0
+        prev = noToes[startHeight][0]
+
         for i in range(int(.2 * height)):
-            if self.getWidthAt(noToes, startHeight+i) < minWidth:
-                noToes[startHeight + i] = np.zeros(len(noToes[0]))
+            for j in range(len(noToes[0])):
+                if prev == noToes[startHeight+i][j]:
+                    count += 1
+                else:
+                    if count < minWidth:
+                        for k in range(count):
+                            noToes[startHeight+i][j-k-1] = 0
+                    count = 1
 
         return noToes
 
@@ -184,8 +202,8 @@ class Imaging:
 
 
         img = self.image_resize( img, height = 512)
-        # cv2.imshow(str((len(img) , len (img[0]))), img)
-        # cv2.waitKey(0)
+        cv2.imshow('orig', img)
+        cv2.waitKey(0)
 
         gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
         gray = cv2.equalizeHist(gray)
@@ -195,24 +213,29 @@ class Imaging:
         img = gray
 
         img = self.isolate(img)
-        # cv2.imshow('final', img)
-        # cv2.waitKey(0)
+        cv2.imshow('iso', img)
+        cv2.waitKey(0)
 
         print (self.getHeight(img))
 
         toeless = self.removeToes(img)
         toeless = self.undesired_objects(toeless)
-        # cv2.imshow('toeless', toeless)
-        # cv2.waitKey(0)
+        cv2.imshow('toeless', toeless)
+        cv2.waitKey(0)
 
 
         index = self.calculateIndex(toeless)
         print(index)
+
+        newImg = path + 'processed.jpg'
+        
+
+
         return index
 
 
-# imageOp = Imaging()
-# imageOp.getIndex('7.jpg')
+imageOp = Imaging()
+imageOp.getIndex('jeff.jpg')
 
 # # High arch (AI≤0.21)
 # Normal arch (AI between 0.21 and 0.26) and
