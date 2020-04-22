@@ -1,6 +1,8 @@
 import cv2
 import numpy as np
 import math
+import ntpath
+import os
 class Imaging:
     def image_resize(self,image, width = None, height = None, inter = cv2.INTER_AREA):
         # initialize the dimensions of the image to be resized and
@@ -180,30 +182,41 @@ class Imaging:
         height, start, stop = self.getHeight(img)
 
         step = height/3
-
+        rgb = np.zeros([len(img), len(img[0]), 3], dtype=np.uint8)
         a = 0
         b = 0
         c = 0
 
         for i in range(height):
-
             if i < step:
                 a += self.getWidthAt(img, i+start)
             elif i < step*2:
                 b += self.getWidthAt(img, i+start)
             else:
                 c += self.getWidthAt(img, i+start)
-
         
-        return (b / (a+b+c))
+        for i in range(len(rgb)):
+            for j in range(len(rgb[0])):
+                if i < step + start:
+                    if img[i][j] != 0:
+                        rgb[i][j] = (255,0,0)
+                elif i < step*2 + start:
+                    if img[i][j] != 0:
+                        rgb[i][j] = (0,255,0)                    
+                else:
+                    if img[i][j] != 0:
+                        rgb[i][j] = (0,0,255)               
+
+
+        return ((b / (a+b+c)), rgb, (a,b,c))
 
     def getIndex(self,path):
         img = cv2.imread(path)
 
 
         img = self.image_resize( img, height = 512)
-        cv2.imshow('orig', img)
-        cv2.waitKey(0)
+        # cv2.imshow('orig', img)
+        # cv2.waitKey(0)
 
         gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
         gray = cv2.equalizeHist(gray)
@@ -213,29 +226,37 @@ class Imaging:
         img = gray
 
         img = self.isolate(img)
-        cv2.imshow('iso', img)
-        cv2.waitKey(0)
+        # cv2.imshow('iso', img)
+        # cv2.waitKey(0)
+        basename = ntpath.basename(path)
 
-        print (self.getHeight(img))
+        # print (self.getHeight(img))
 
         toeless = self.removeToes(img)
         toeless = self.undesired_objects(toeless)
-        cv2.imshow('toeless', toeless)
-        cv2.waitKey(0)
+        # cv2.imshow('toeless', toeless)
+
+        # cv2.waitKey(0)
 
 
         index = self.calculateIndex(toeless)
-        print(index)
 
-        newImg = path + 'processed.jpg'
+        img = self.image_resize( img, height = 128)
+        cv2.imwrite( os.getcwd() + '/static/temp/' +basename +'isolatedFoot.jpg', img)
+        toeless = self.image_resize( toeless, height = 128)
+        cv2.imwrite(os.getcwd() + '/static/temp/'+basename+'toesRemoved.jpg', toeless)
+        
+        cv2.imwrite(os.getcwd() + '/static/temp/'+basename + 'rgb.jpg', self.image_resize(index[1], height = 128))
+
+
         
 
 
-        return index
+        return index[0]
 
 
-imageOp = Imaging()
-imageOp.getIndex('jeff.jpg')
+# imageOp = Imaging()
+# imageOp.getIndex('mom.jpg')
 
 # # High arch (AI≤0.21)
 # Normal arch (AI between 0.21 and 0.26) and

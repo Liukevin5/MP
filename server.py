@@ -21,6 +21,7 @@ def archtype():
       f = request.files['file']
       millis = int(round(time.time() * 1000))
       newPath = os.getcwd() + '/uploads/' + str(millis) + f.filename
+      base = f.filename
       f.save(newPath)
       archIndex = imageOperator.getIndex(newPath)
       os.remove(newPath)
@@ -67,7 +68,13 @@ def archtype():
          gender = "Women's"
   
       render = '<html><header><title>'+ gender + ' ' + pronation+' shoes</title><link rel="stylesheet" href="'+ '/static/styles.css"></header><body>'
+         
 
+
+      render += '<h2>' + comment + '</h2>'
+      render += '<img src = "/static/temp/' + str(millis)+base + 'isolatedFoot.jpg"/>'
+      render += '  <img src = "/static/temp/' + str(millis)+base + 'toesRemoved.jpg"/>'
+      render += ' <img src = "/static/temp/' +str(millis)+ base + 'rgb.jpg"/>'
       table = '<table>'
 
 
