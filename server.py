@@ -67,7 +67,9 @@ def archtype():
       else: 
          gender = "Women's"
   
-      render = '<html><header><title>'+ gender + ' ' + pronation+' shoes</title><link rel="stylesheet" href="'+ '/static/styles.css"></header><body>'
+      render = '<html><head><title>'+ gender + ' ' + pronation+' shoes</title><link rel="stylesheet" href="'+ '/static/styles.css">'
+      
+      render += '</head><body> '
          
 
 
@@ -75,13 +77,13 @@ def archtype():
       render += '<img src = "/static/temp/' + str(millis)+base + 'isolatedFoot.jpg"/>'
       render += '  <img src = "/static/temp/' + str(millis)+base + 'toesRemoved.jpg"/>'
       render += ' <img src = "/static/temp/' +str(millis)+ base + 'rgb.jpg"/>'
-      table = '<table>'
 
 
       td = []
+      tdBrand = []
       for shoe in shoelist:
          td.append('<td style="word-wrap: break-word"><a href="' + shoe[3] +'"><div><img src="' + shoe[2] + '"/>' +'<br/>'+ shoe[1]+'</div></a></td>')
-
+         tdBrand.append(shoe[0])
       columnCount = 5
       # print(shoelist)
       count = 0
@@ -93,18 +95,39 @@ def archtype():
       if pronation == 'underpronation':
          render += '<h2>' + gender + ' Underpronation Running Shoes</h2></tr>'
 
+      prev = tdBrand[0]
+
+      # table = '<h2>' + prev + '</h2><br/><table>'
+ 
+      table = '<button type="button" class="collapsible">' + prev + '</button><table class="content">'
+
+
+
       for i in range(math.ceil(len(td)/columnCount)):
          table += '<tr>'
          for j in range(5):
                if(count < len(td)):
-                  table += td[count]
+                  if tdBrand[count] == prev:
+                     table += td[count]
+
+                  else:
+                     table += '</tr></table><br/>'
+                     table += '<button type="button" class="collapsible">' +tdBrand[count] + '</button><table class="content">'
+                     table += td[count]
+                     j = 0
+
+                  prev = tdBrand[count]
                   count += 1
+                  
+
+
 
          table += '</tr>'
 
       table += '</table>'
 
       render += table
+      render  += '<script type="text/javascript" src="/static/js/collapse.js"></script>'
       render += '</body></html>'
 
 

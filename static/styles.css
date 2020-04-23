@@ -31,6 +31,9 @@ h2 {
     background-color: lightgray;
     margin-left:auto; 
     margin-right:auto;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: normal;
+    font: bold;
 }
 
 a {
@@ -50,3 +53,35 @@ a {
     background-color:   white;
  }
 
+
+/* Style the button that is used to open and close the collapsible content */
+.collapsible {
+    background-color: #eee;
+    cursor: pointer;
+    padding: 2px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 22px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Times New Roman', Times, serif;
+  }
+
+
+  /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+  .active, .collapsible:hover {
+    background-color: lightgray;
+  }
+  
+  /* Style the collapsible content. Note: hidden by default */
+  .content {
+    padding: 0 18px;
+    display: block;
+    overflow: hidden;
+    background-color: #f1f1f1;
+  }
