@@ -38,4 +38,15 @@ a {
     text-decoration: none;
   }
 
- 
+ form {
+     max-width: 500px;
+     background-color: lightgray;
+     padding: 1px;
+ }
+
+ .btn{
+    border: 3px;
+    border-color:  black;
+    background-color:   white;
+ }
+

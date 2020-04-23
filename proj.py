@@ -255,9 +255,11 @@ class Imaging:
         return index[0]
 
 
-# imageOp = Imaging()
-# imageOp.getIndex('mom.jpg')
+x = cv2.imread('7.jpg')
 
+imageOp = Imaging()
+x = imageOp.image_resize(x, height = 256)
+cv2.imwrite('exampleImage.jpg', x)
 # # High arch (AI≤0.21)
 # Normal arch (AI between 0.21 and 0.26) and
 # Low arch (AI≥0.26)

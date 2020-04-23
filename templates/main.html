@@ -1,14 +1,41 @@
 
 <html>
-    <header><title>This is title</title></header>
+    <header><title>Running8</title>
+   
+      <link rel="stylesheet" href="/static/styles.css">
+   </header>
 
    <body>
+
+      <h2> <img src = '/static/logo.png'/> </h2>
+      
+      <h2> About </h2>
+      <div>
+         Welcome to Running8. Running8 aims to help match new runners with shoes appropriate for their gait.
+      </div>
+      
+      <br/>
+
+      <h2> Instructions </h2>
+      <ol> 
+         <li> Perform the wet test, by placing your wet foot on a sheet of paper </li> 
+         <li> Place the paper against a dark surface, and orient your footprint vertically</li>
+         <li> Take a picture of the paper, with only the paper and footprint on screen. Alternatively you may crop the photo.</li>
+         <li> Fill out the form, below and submit.</li>
+      </ol>
+      Example: 
+      <br/>
+      <img src = 'static/exampleImage.jpg' />
+
+      <br/>
+      <h2> Search </h2>
+
       <form action = "http://localhost:5000/archtype" method = "POST" 
          enctype = "multipart/form-data">
-         <input type="radio" name="gender" value="male" checked> Male<br/>
-         <input type="radio" name="gender" value="female"> Female<br/>
-         <input type = "file" name = "file" /> 
-         <input type = "submit"/>
+         <input type="radio" name="gender" value="male" checked> Male <br/>
+         <input type="radio" name="gender" value="female"> Female <br/>
+         <input type = "file" class="btn" name = "file" required/> 
+         <input type = "submit"  />
       </form>   
    </body>
 </html>
