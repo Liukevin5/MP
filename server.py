@@ -102,29 +102,45 @@ def archtype():
       table = '<button type="button" class="collapsible">' + prev + '</button><table class="content">'
 
 
-
-      for i in range(math.ceil(len(td)/columnCount)):
+      while(count < len(td)):
          table += '<tr>'
          for j in range(5):
-               if(count < len(td)):
-                  if tdBrand[count] == prev:
-                     table += td[count]
+            print(j)
+            if(count < len(td)):
+               if tdBrand[count] == prev:
+                  table += td[count]
 
-                  else:
-                     table += '</tr></table><br/>'
-                     table += '<button type="button" class="collapsible">' +tdBrand[count] + '</button><table class="content">'
-                     table += td[count]
-                     j = 0
-
+               else:
+                  table += '</tr></table><br/><br/>'
+                  table += '<button type="button" class="collapsible">' +tdBrand[count] + '</button><table class="content"><tr>'
                   prev = tdBrand[count]
-                  count += 1
+                  break
+               prev = tdBrand[count]
+               count += 1
+
+      # for i in range(math.ceil(len(td)/columnCount)):
+      #    table += '<tr>'
+      #    for j in range(5):
+      #       print(j)
+      #       if(count < len(td)):
+      #          if tdBrand[count] == prev:
+      #             table += td[count]
+
+      #          else:
+      #             table += '</tr></table><br/>'
+      #             table += '<button type="button" class="collapsible">' +tdBrand[count] + '</button><table class="content"><tr>'
+      #             table += td[count]
+                  
+
+      #          prev = tdBrand[count]
+      #          count += 1
                   
 
 
 
          table += '</tr>'
 
-      table += '</table>'
+      table += '</table> <br/>'
 
       render += table
       render  += '<script type="text/javascript" src="/static/js/collapse.js"></script>'
