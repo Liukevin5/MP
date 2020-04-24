@@ -2,7 +2,7 @@
 
 td {
     border: 3px solid;
-    border-color:lightgray;
+    border-color:gray;
     font-size: 12px;
     background-color: white;
 }
@@ -56,11 +56,12 @@ a {
 
 /* Style the button that is used to open and close the collapsible content */
 .collapsible {
-    background-color: #eee;
+    background-color: lightgray;
     cursor: pointer;
     padding: 2px;
     width: 100%;
-    border: none;
+    border: 1px;
+    border-color: black;
     text-align: left;
     outline: none;
     font-size: 22px;
@@ -75,7 +76,8 @@ a {
 
   /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
   .active, .collapsible:hover {
-    background-color: lightgray;
+    background-color: gray;
+    border-color: purple;
   }
   
   /* Style the collapsible content. Note: hidden by default */

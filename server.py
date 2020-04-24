@@ -82,6 +82,7 @@ def archtype():
       td = []
       tdBrand = []
       for shoe in shoelist:
+         # print(shoe[3])
          td.append('<td style="word-wrap: break-word"><a href="' + shoe[3] +'"><div><img src="' + shoe[2] + '"/>' +'<br/>'+ shoe[1]+'</div></a></td>')
          tdBrand.append(shoe[0])
       columnCount = 5
@@ -147,6 +148,9 @@ def archtype():
       render += '</body></html>'
 
 
+      f = open(os.getcwd() + '/sample.html', "w")
+      f.write(render)
+      f.close()
       return render
 
 
